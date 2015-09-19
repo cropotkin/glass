@@ -43,9 +43,18 @@ namespace glass
                 return;
             }
 
+            Console.WriteLine("Loading audio data");
+
             var samples = LoadSamples(aArgs[0]);
 
+            if (!samples.Any())
+            {
+                throw new ApplicationException("Audio file contains no audio data");
+            }
 
+            Console.WriteLine("Loaded {0} channels with {1} samples", samples.First().Count(), samples.Count());
+
+            Console.ReadLine();
         }
 
         private void Help()
@@ -57,9 +66,9 @@ namespace glass
         {
             switch (Path.GetExtension(aPath).ToLowerInvariant())
             {
-                case "wav":
+                case ".wav":
                     return LoadSamplesWav(aPath);
-                case "mp3":
+                case ".mp3":
                     return LoadSamplesMp3(aPath);
                 default:
                     throw new ApplicationException("audio file not recognised");
